@@ -245,7 +245,7 @@ function getPartTwoAnswer(input: string) {
   return safeLevels;
 }
 
-export default function DayTwo() {
+export default function DayThree() {
   const [input, setInput] = useState("");
   const partOneAnswer = getPartOneAnswer(input);
   const partTwoAnswer = getPartTwoAnswer(input);
