@@ -1,4 +1,10 @@
 {
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "lib": ["ESNext"],
+    "target": "ESNext"
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
