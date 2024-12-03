@@ -11,12 +11,14 @@ import ReturnHome from "../../components/ReturnToHome";
 // 45 47 48 50 51 52 54 51
 // 23 26 27 30 30
 // 40 41 44 47 49 51 55`;
-const input = `7 6 4 2 1
-1 2 7 8 9
-9 7 6 2 1
-1 3 2 4 5
-8 6 4 4 1
-1 3 6 7 9`;
+
+// const input = `7 6 4 2 1
+// 78 81 83 84 83 84
+// 1 2 7 8 9
+// 9 7 6 2 1
+// 1 3 2 4 5
+// 8 6 4 4 1
+// 1 3 6 7 9`;
 
 function getPartOneAnswer(input: string) {
   function checkIncreasing(input: number[]) {
@@ -94,7 +96,6 @@ function getPartTwoAnswer(input: string) {
   // TEST VERSIONS OF EACH LEVEL WITH INNER INDEXES MISSING
 
   function checkVariationIncreasing(input: number[]) {
-    // console.log("CHECK VARIATION INCREASING:", input);
     for (let index = 0; index < input.length; index++) {
       if (
         input[index + 1] < input[index] ||
@@ -104,7 +105,6 @@ function getPartTwoAnswer(input: string) {
       }
       if (input[index + 1] > input[index]) {
         if (input[index + 1] - input[index] > 3) {
-          // console.log("Failed variation increasing", input);
           return false;
         }
       }
@@ -116,7 +116,6 @@ function getPartTwoAnswer(input: string) {
   }
 
   function checkVariationDecreasing(input: number[]) {
-    // console.log("CHECK VARIATION DECREASING:", input);
     for (let index = 0; index < input.length; index++) {
       if (
         input[index + 1] > input[index] ||
@@ -126,7 +125,6 @@ function getPartTwoAnswer(input: string) {
       }
       if (input[index + 1] < input[index]) {
         if (input[index] - input[index + 1] > 3) {
-          // console.log("Failed variation decreasing", input);
           return false;
         }
       }
@@ -147,10 +145,8 @@ function getPartTwoAnswer(input: string) {
       const variation = input.slice(0, index).concat(input.slice(index + 1));
       variations.push(variation);
     }
-    console.log("Variations", variations);
     let successes = 0;
     for (let index = 0; index < variations.length; index++) {
-      console.log(variations[index]);
       if (
         // an early false return before all variations of a level have been checked is causing a false error.
         checkVariationIncreasing(variations[index]) ||
@@ -161,14 +157,9 @@ function getPartTwoAnswer(input: string) {
         continue;
       }
     }
-    // console.log("Successes:", successes);
     if (successes > 0) {
-      console.log("Successes", successes);
-      console.log("Passed test", input);
       return true;
     } else {
-      console.log("Successes", successes);
-      console.log("Failed test", input);
       return false;
     }
   }
@@ -177,9 +168,15 @@ function getPartTwoAnswer(input: string) {
     const lastIndex = input.length - 1;
     for (let index = 0; index < input.length; index++) {
       if (input[index + 1] === input[index]) {
-        return false;
+        const variationsResult = createVariations(input, lastIndex);
+        return variationsResult;
       }
-      if (input[index + 1] < input[index] || input[index + 1] > input[index]) {
+      if (input[index + 1] < input[index]) {
+        const variationsResult = createVariations(input, lastIndex);
+        return variationsResult;
+      }
+
+      if (input[index + 1] > input[index]) {
         if (input[index + 1] - input[index] > 3) {
           const variationsResult = createVariations(input, lastIndex);
           return variationsResult;
@@ -197,9 +194,14 @@ function getPartTwoAnswer(input: string) {
     const lastIndex = input.length - 1;
     for (let index = 0; index < input.length; index++) {
       if (input[index + 1] === input[index]) {
-        return false;
+        const variationsResult = createVariations(input, lastIndex);
+        return variationsResult;
       }
-      if (input[index + 1] > input[index] || input[index + 1] < input[index]) {
+      if (input[index + 1] > input[index]) {
+        const variationsResult = createVariations(input, lastIndex);
+        return variationsResult;
+      }
+      if (input[index + 1] < input[index]) {
         if (input[index] - input[index + 1] > 3) {
           const variationsResult = createVariations(input, lastIndex);
           return variationsResult;
@@ -228,10 +230,8 @@ function getPartTwoAnswer(input: string) {
       checkIncreasing(splitLevels[index]) ||
       checkDecreasing(splitLevels[index])
     ) {
-      console.log(splitLevels[index] + " Safe");
       levelTesting.push(splitLevels[index] + " Safe");
     } else {
-      console.log(splitLevels[index] + " Unsafe");
       levelTesting.push(splitLevels[index] + " Unsafe");
     }
   }
@@ -246,15 +246,15 @@ function getPartTwoAnswer(input: string) {
 }
 
 export default function DayTwo() {
-  // const [input, setInput] = useState("");
+  const [input, setInput] = useState("");
   const partOneAnswer = getPartOneAnswer(input);
   const partTwoAnswer = getPartTwoAnswer(input);
 
-  // useEffect(() => {
-  //   fetch("/day-two-puzzle-input.txt")
-  //     .then((response) => response.text())
-  //     .then((data) => setInput(data));
-  // }, []);
+  useEffect(() => {
+    fetch("/day-two-puzzle-input.txt")
+      .then((response) => response.text())
+      .then((data) => setInput(data));
+  }, []);
 
   return (
     <>
