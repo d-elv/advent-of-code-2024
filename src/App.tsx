@@ -2,7 +2,7 @@ import { BrowserRouter, Link, Route, Routes } from "react-router";
 import "./App.css";
 import DayOne from "./pages/day-one/DayOne";
 import DayTwo from "./pages/day-two/DayTwo";
-import DayThree from "./pages/day-two/DayTwo";
+import DayThree from "./pages/day-three/DayThree";
 
 const routes = [
   { path: "/", element: <Home />, name: "Home" },
