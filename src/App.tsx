@@ -3,12 +3,14 @@ import "./App.css";
 import DayOne from "./pages/day-one/DayOne";
 import DayTwo from "./pages/day-two/DayTwo";
 import DayThree from "./pages/day-three/DayThree";
+import DayFour from "./pages/day-four/DayFour";
 
 const routes = [
   { path: "/", element: <Home />, name: "Home" },
   { path: "/day-one", element: <DayOne />, name: "Day One" },
   { path: "/day-two", element: <DayTwo />, name: "Day Two" },
   { path: "/day-three", element: <DayThree />, name: "Day Three" },
+  { path: "/day-four", element: <DayFour />, name: "Day Four" },
 ];
 
 function Home() {
