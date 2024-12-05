@@ -202,158 +202,83 @@ function getPartTwoAnswer(input: string) {
   });
   console.log(matrix);
 
-  let xmasCount = 0;
+  let masCount = 0;
 
-  function checkNorth(rowIndex: number, colIndex: number) {
+  function checkEastSouthEast(rowIndex: number, colIndex: number) {
     // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
 
-    if (matrix[rowIndex - 3] === undefined) return false;
+    // Checks the diagonal south east & the relative 2 rows below for MAS MAS or MAS SAM
+    if (matrix[rowIndex + 2] === undefined) return false;
+    if (matrix[rowIndex + 2][colIndex + 2] === undefined) return false;
 
-    if (matrix[rowIndex - 0][colIndex] === "X") {
-      if (
-        matrix[rowIndex - 1][colIndex] === "M" &&
-        matrix[rowIndex - 2][colIndex] === "A" &&
-        matrix[rowIndex - 3][colIndex] === "S"
-      ) {
-        console.log("North");
-        return true;
-      }
-    }
-    return false;
-  }
-
-  function checkNorthEast(rowIndex: number, colIndex: number) {
-    // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
-    if (
-      matrix[rowIndex - 3] === undefined ||
-      matrix[rowIndex - 3][colIndex + 3] === undefined
-    )
+    if (matrix[rowIndex + 2][colIndex + 2] === "M") {
+      // Checks southEast opposite is not also M (Or it'd be MAM)
       return false;
-
-    if (matrix[rowIndex - 0][colIndex + 0] === "X") {
+    }
+    if (matrix[rowIndex + 2][colIndex + 2] === "S") {
       if (
-        matrix[rowIndex - 1][colIndex + 1] === "M" &&
-        matrix[rowIndex - 2][colIndex + 2] === "A" &&
-        matrix[rowIndex - 3][colIndex + 3] === "S"
+        // X-MAS check
+        (matrix[rowIndex + 1][colIndex + 1] === "A" && // Checks for MAS MAS
+          matrix[rowIndex + 2][colIndex + 0] === "M" &&
+          matrix[rowIndex + 0][colIndex + 2] === "S") ||
+        (matrix[rowIndex + 1][colIndex + 1] === "A" && // Checks for MAS SAM
+          matrix[rowIndex + 2][colIndex + 0] === "S" &&
+          matrix[rowIndex + 0][colIndex + 2] === "M")
       ) {
-        console.log("North East");
         return true;
       }
     }
     return false;
   }
 
-  function checkEast(rowIndex: number, colIndex: number) {
+  function checkWestSouthWest(rowIndex: number, colIndex: number) {
     // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
 
-    if (matrix[colIndex + 3] === undefined) return false;
+    // Checks the diagonal south west & the relative 2 rows below for MAS MAS or MAS SAM
+    if (matrix[rowIndex + 2] === undefined) return false;
+    if (matrix[rowIndex + 2][colIndex - 2] === undefined) return false;
 
-    if (matrix[rowIndex][colIndex + 0] === "X") {
-      if (
-        matrix[rowIndex][colIndex + 1] === "M" &&
-        matrix[rowIndex][colIndex + 2] === "A" &&
-        matrix[rowIndex][colIndex + 3] === "S"
-      ) {
-        console.log("East");
-        return true;
-      }
-    }
-    return false;
-  }
-
-  function checkSouthEast(rowIndex: number, colIndex: number) {
-    // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
-    if (
-      matrix[rowIndex + 3] === undefined ||
-      matrix[rowIndex + 3][colIndex + 3] === undefined
-    )
+    if (matrix[rowIndex + 2][colIndex - 2] === "M") {
+      // Checks South West opposite is not also M (Or it'd be MAM)
       return false;
-
-    if (matrix[rowIndex + 0][colIndex + 0] === "X") {
+    }
+    if (matrix[rowIndex + 2][colIndex - 2] === "S") {
       if (
-        matrix[rowIndex + 1][colIndex + 1] === "M" &&
-        matrix[rowIndex + 2][colIndex + 2] === "A" &&
-        matrix[rowIndex + 3][colIndex + 3] === "S"
+        // X-MAS check
+        (matrix[rowIndex + 1][colIndex - 1] === "A" && // Checks for MAS MAS
+          matrix[rowIndex + 2][colIndex - 0] === "M" &&
+          matrix[rowIndex + 0][colIndex - 2] === "S") ||
+        (matrix[rowIndex + 1][colIndex - 1] === "A" && // Checks for MAS SAM
+          matrix[rowIndex + 2][colIndex - 0] === "S" &&
+          matrix[rowIndex + 0][colIndex - 2] === "M")
       ) {
-        console.log("South East");
         return true;
       }
     }
     return false;
   }
 
-  function checkSouth(rowIndex: number, colIndex: number) {
+  function checkWestNorthWest(rowIndex: number, colIndex: number) {
     // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
 
-    if (matrix[rowIndex + 3] === undefined) return false;
+    // Checks the diagonal south west & the relative 2 rows below for MAS MAS or MAS SAM
+    if (matrix[rowIndex - 2] === undefined) return false;
+    if (matrix[rowIndex - 2][colIndex - 2] === undefined) return false;
 
-    if (matrix[rowIndex + 0][colIndex] === "X") {
-      if (
-        matrix[rowIndex + 1][colIndex] === "M" &&
-        matrix[rowIndex + 2][colIndex] === "A" &&
-        matrix[rowIndex + 3][colIndex] === "S"
-      ) {
-        console.log("South");
-        return true;
-      }
-    }
-    return false;
-  }
-
-  function checkSouthWest(rowIndex: number, colIndex: number) {
-    // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
-    if (
-      matrix[rowIndex + 3] === undefined ||
-      matrix[rowIndex + 3][colIndex - 3] === undefined
-    )
+    if (matrix[rowIndex - 2][colIndex - 2] === "M") {
+      // Checks South West opposite is not also M (Or it'd be MAM)
       return false;
-
-    if (matrix[rowIndex + 0][colIndex - 0] === "X") {
-      if (
-        matrix[rowIndex + 1][colIndex - 1] === "M" &&
-        matrix[rowIndex + 2][colIndex - 2] === "A" &&
-        matrix[rowIndex + 3][colIndex - 3] === "S"
-      ) {
-        console.log("South West");
-        return true;
-      }
     }
-    return false;
-  }
-
-  function checkWest(rowIndex: number, colIndex: number) {
-    // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
-
-    if (matrix[colIndex - 3] === undefined) return false;
-
-    if (matrix[rowIndex][colIndex - 0] === "X") {
+    if (matrix[rowIndex - 2][colIndex - 2] === "S") {
       if (
-        matrix[rowIndex][colIndex - 1] === "M" &&
-        matrix[rowIndex][colIndex - 2] === "A" &&
-        matrix[rowIndex][colIndex - 3] === "S"
+        // X-MAS check
+        (matrix[rowIndex - 1][colIndex - 1] === "A" && // Checks for MAS MAS
+          matrix[rowIndex - 2][colIndex - 0] === "M" &&
+          matrix[rowIndex - 0][colIndex - 2] === "S") ||
+        (matrix[rowIndex - 1][colIndex - 1] === "A" && // Checks for MAS SAM
+          matrix[rowIndex - 2][colIndex - 0] === "S" &&
+          matrix[rowIndex - 0][colIndex - 2] === "M")
       ) {
-        console.log("West");
-        return true;
-      }
-    }
-    return false;
-  }
-
-  function checkNorthWest(rowIndex: number, colIndex: number) {
-    // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
-    if (
-      matrix[rowIndex - 3] === undefined ||
-      matrix[rowIndex - 3][colIndex - 3] === undefined
-    )
-      return false;
-
-    if (matrix[rowIndex - 0][colIndex - 0] === "X") {
-      if (
-        matrix[rowIndex - 1][colIndex - 1] === "M" &&
-        matrix[rowIndex - 2][colIndex - 2] === "A" &&
-        matrix[rowIndex - 3][colIndex - 3] === "S"
-      ) {
-        console.log("North West");
         return true;
       }
     }
@@ -362,33 +287,44 @@ function getPartTwoAnswer(input: string) {
 
   matrix.forEach((line, rowIndex) => {
     line.forEach((cell, columnIndex) => {
-      if (checkNorth(rowIndex, columnIndex)) {
-        xmasCount += 1;
+      if (cell === "M") {
+        if (checkEastSouthEast(rowIndex, columnIndex)) {
+          console.log("East South East:", columnIndex + 1, rowIndex + 1);
+          masCount += 1;
+        }
+        if (checkWestSouthWest(rowIndex, columnIndex)) {
+          console.log("West South West:", columnIndex + 1, rowIndex + 1);
+          masCount += 1;
+        }
+        // if (checkWestNorthWest(rowIndex, columnIndex)) {
+        //   console.log("West North West:", columnIndex + 1, rowIndex + 1);
+        //   masCount += 1;
+        // }
       }
-      if (checkNorthEast(rowIndex, columnIndex)) {
-        xmasCount += 1;
-      }
-      if (checkEast(rowIndex, columnIndex)) {
-        xmasCount += 1;
-      }
-      if (checkSouthEast(rowIndex, columnIndex)) {
-        xmasCount += 1;
-      }
-      if (checkSouth(rowIndex, columnIndex)) {
-        xmasCount += 1;
-      }
-      if (checkSouthWest(rowIndex, columnIndex)) {
-        xmasCount += 1;
-      }
-      if (checkWest(rowIndex, columnIndex)) {
-        xmasCount += 1;
-      }
-      if (checkNorthWest(rowIndex, columnIndex)) {
-        xmasCount += 1;
-      }
+      // if (checkNorthEast(rowIndex, columnIndex)) {
+      //   masCount += 1;
+      // }
+      // if (checkEast(rowIndex, columnIndex)) {
+      //   masCount += 1;
+      // }
+      // if (checkSouthEast(rowIndex, columnIndex)) {
+      //   masCount += 1;
+      // }
+      // if (checkSouth(rowIndex, columnIndex)) {
+      //   masCount += 1;
+      // }
+      // if (checkSouthWest(rowIndex, columnIndex)) {
+      //   masCount += 1;
+      // }
+      // if (checkWest(rowIndex, columnIndex)) {
+      //   masCount += 1;
+      // }
+      // if (checkNorthWest(rowIndex, columnIndex)) {
+      //   masCount += 1;
+      // }
     });
   });
-  return xmasCount;
+  return masCount;
 }
 
 export default function DayFour() {
