@@ -7,16 +7,16 @@ import ReturnHome from "../../components/ReturnToHome";
 // XMAS.S
 // .X....`;
 
-const input = `MMMSXXMASM
-MSAMXMSMSA
-AMXSXMAAMM
-MSAMASMSMX
-XMASAMXAMM
-XXAMMXXAMA
-SMSMSASXSS
-SAXAMASAAA
-MAMMMXMMMM
-MXMXAXMASX`;
+// const input = `MMMSXXMASM
+// MSAMXMSMSA
+// AMXSXMAAMM
+// MSAMASMSMX
+// XMASAMXAMM
+// XXAMMXXAMA
+// SMSMSASXSS
+// SAXAMASAAA
+// MAMMMXMMMM
+// MXMXAXMASX`;
 
 function getPartOneAnswer(input: string) {
   // Turns input string into 2D array
@@ -204,10 +204,9 @@ function getPartTwoAnswer(input: string) {
 
   let masCount = 0;
 
-  function checkEastSouthEast(rowIndex: number, colIndex: number) {
-    // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
-
+  function checkForMasM(rowIndex: number, colIndex: number) {
     // Checks the diagonal south east & the relative 2 rows below for MAS MAS or MAS SAM
+
     if (matrix[rowIndex + 2] === undefined) return false;
     if (matrix[rowIndex + 2][colIndex + 2] === undefined) return false;
 
@@ -231,53 +230,24 @@ function getPartTwoAnswer(input: string) {
     return false;
   }
 
-  function checkWestSouthWest(rowIndex: number, colIndex: number) {
-    // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
-
-    // Checks the diagonal south west & the relative 2 rows below for MAS MAS or MAS SAM
+  function checkForMasS(rowIndex: number, colIndex: number) {
+    // Checks the diagonal south east & the relative 2 rows below for SAM SAM or SAM MAS
     if (matrix[rowIndex + 2] === undefined) return false;
-    if (matrix[rowIndex + 2][colIndex - 2] === undefined) return false;
+    if (matrix[rowIndex + 2][colIndex + 2] === undefined) return false;
 
-    if (matrix[rowIndex + 2][colIndex - 2] === "M") {
-      // Checks South West opposite is not also M (Or it'd be MAM)
+    if (matrix[rowIndex + 2][colIndex + 2] === "S") {
+      // Checks southEast opposite is not also M (Or it'd be SAS)
       return false;
     }
-    if (matrix[rowIndex + 2][colIndex - 2] === "S") {
+    if (matrix[rowIndex + 2][colIndex + 2] === "M") {
       if (
         // X-MAS check
-        (matrix[rowIndex + 1][colIndex - 1] === "A" && // Checks for MAS MAS
-          matrix[rowIndex + 2][colIndex - 0] === "M" &&
-          matrix[rowIndex + 0][colIndex - 2] === "S") ||
-        (matrix[rowIndex + 1][colIndex - 1] === "A" && // Checks for MAS SAM
-          matrix[rowIndex + 2][colIndex - 0] === "S" &&
-          matrix[rowIndex + 0][colIndex - 2] === "M")
-      ) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  function checkWestNorthWest(rowIndex: number, colIndex: number) {
-    // console.log(matrix[rowIndex][colIndex], rowIndex, colIndex);
-
-    // Checks the diagonal south west & the relative 2 rows below for MAS MAS or MAS SAM
-    if (matrix[rowIndex - 2] === undefined) return false;
-    if (matrix[rowIndex - 2][colIndex - 2] === undefined) return false;
-
-    if (matrix[rowIndex - 2][colIndex - 2] === "M") {
-      // Checks South West opposite is not also M (Or it'd be MAM)
-      return false;
-    }
-    if (matrix[rowIndex - 2][colIndex - 2] === "S") {
-      if (
-        // X-MAS check
-        (matrix[rowIndex - 1][colIndex - 1] === "A" && // Checks for MAS MAS
-          matrix[rowIndex - 2][colIndex - 0] === "M" &&
-          matrix[rowIndex - 0][colIndex - 2] === "S") ||
-        (matrix[rowIndex - 1][colIndex - 1] === "A" && // Checks for MAS SAM
-          matrix[rowIndex - 2][colIndex - 0] === "S" &&
-          matrix[rowIndex - 0][colIndex - 2] === "M")
+        (matrix[rowIndex + 1][colIndex + 1] === "A" && // Checks for SAM SAM
+          matrix[rowIndex + 2][colIndex + 0] === "M" &&
+          matrix[rowIndex + 0][colIndex + 2] === "S") ||
+        (matrix[rowIndex + 1][colIndex + 1] === "A" && // Checks for SAM MAS
+          matrix[rowIndex + 2][colIndex + 0] === "S" &&
+          matrix[rowIndex + 0][colIndex + 2] === "M")
       ) {
         return true;
       }
@@ -288,61 +258,36 @@ function getPartTwoAnswer(input: string) {
   matrix.forEach((line, rowIndex) => {
     line.forEach((cell, columnIndex) => {
       if (cell === "M") {
-        if (checkEastSouthEast(rowIndex, columnIndex)) {
-          console.log("East South East:", columnIndex + 1, rowIndex + 1);
+        if (checkForMasM(rowIndex, columnIndex)) {
           masCount += 1;
         }
-        if (checkWestSouthWest(rowIndex, columnIndex)) {
-          console.log("West South West:", columnIndex + 1, rowIndex + 1);
-          masCount += 1;
-        }
-        // if (checkWestNorthWest(rowIndex, columnIndex)) {
-        //   console.log("West North West:", columnIndex + 1, rowIndex + 1);
-        //   masCount += 1;
-        // }
       }
-      // if (checkNorthEast(rowIndex, columnIndex)) {
-      //   masCount += 1;
-      // }
-      // if (checkEast(rowIndex, columnIndex)) {
-      //   masCount += 1;
-      // }
-      // if (checkSouthEast(rowIndex, columnIndex)) {
-      //   masCount += 1;
-      // }
-      // if (checkSouth(rowIndex, columnIndex)) {
-      //   masCount += 1;
-      // }
-      // if (checkSouthWest(rowIndex, columnIndex)) {
-      //   masCount += 1;
-      // }
-      // if (checkWest(rowIndex, columnIndex)) {
-      //   masCount += 1;
-      // }
-      // if (checkNorthWest(rowIndex, columnIndex)) {
-      //   masCount += 1;
-      // }
+      if (cell === "S") {
+        if (checkForMasS(rowIndex, columnIndex)) {
+          masCount += 1;
+        }
+      }
     });
   });
   return masCount;
 }
 
 export default function DayFour() {
-  // const [input, setInput] = useState("");
-  // const partOneAnswer = getPartOneAnswer(input);
+  const [input, setInput] = useState("");
+  const partOneAnswer = getPartOneAnswer(input);
   const partTwoAnswer = getPartTwoAnswer(input);
 
-  // useEffect(() => {
-  //   fetch("/day-four-puzzle-input.txt")
-  //     .then((response) => response.text())
-  //     .then((data) => setInput(data));
-  // }, []);
+  useEffect(() => {
+    fetch("/day-four-puzzle-input.txt")
+      .then((response) => response.text())
+      .then((data) => setInput(data));
+  }, []);
 
   return (
     <>
       <h1>Day Three</h1>
       <ReturnHome />
-      {/* <h2>The result for Part One is: {partOneAnswer}</h2> */}
+      <h2>The result for Part One is: {partOneAnswer}</h2>
       <h2>The result for Part Two is: {partTwoAnswer}</h2>
     </>
   );
