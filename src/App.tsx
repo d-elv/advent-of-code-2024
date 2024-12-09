@@ -4,6 +4,7 @@ import DayOne from "./pages/day-one/DayOne";
 import DayTwo from "./pages/day-two/DayTwo";
 import DayThree from "./pages/day-three/DayThree";
 import DayFour from "./pages/day-four/DayFour";
+import DayFive from "./pages/day-five/day-five";
 
 const routes = [
   { path: "/", element: <Home />, name: "Home" },
@@ -11,6 +12,7 @@ const routes = [
   { path: "/day-two", element: <DayTwo />, name: "Day Two" },
   { path: "/day-three", element: <DayThree />, name: "Day Three" },
   { path: "/day-four", element: <DayFour />, name: "Day Four" },
+  { path: "/day-five", element: <DayFive />, name: "Day Five" },
 ];
 
 function Home() {
